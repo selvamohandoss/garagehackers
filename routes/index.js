@@ -21,5 +21,7 @@ exports.index = function(req, res){
             var obj = JSON.parse(data);
             res.render('index', { title: 'The game', teams: JSON.stringify(obj.body.teams) });
         });
+    }).on('error', function(e) {
+        res.render('index', { title: 'The game', teams: e.message });
     });
 };
