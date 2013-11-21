@@ -15,7 +15,7 @@ var gamejs = new require('./public/common/game.js');
 var Game = gamejs.Game;
 var game = new Game();
 
-var level = new require('./public/level.js');
+var level = new require('./public/common/level.js');
 var gen = new level.Generator({
     width: Game.WIDTH,
     height: Game.HEIGHT,
@@ -25,7 +25,6 @@ var gen = new level.Generator({
 });
 
 game.load(gen.generate());
-console.log(game.state.objects);
 
 game.updateEvery(Game.UPDATE_INTERVAL);
 var observerCount = 0;

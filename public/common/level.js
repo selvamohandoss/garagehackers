@@ -19,10 +19,10 @@ LevelGenerator.prototype.generate = function () {
     while (count--) {
         console.log("creating blobs: " + count);
         var blob = this.createRandomBlob_();
-        stat.objects[blob.id] = blob;
+        state.objects[blob.id] = blob;
     }
     return state;
-}
+};
 
 LevelGenerator.prototype.createRandomBlob_ = function  () {
     return {
