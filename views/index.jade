@@ -1,6 +1,29 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p your teams: #{teams}
+  h1 Welcome to #{title}
+  .outer
+    canvas(id="canvas" width="640" height="480")
+    .hud
+        .buttons
+            button(id="join") Join
+
+    .info
+        div
+            span(id="player-count")=0
+            |  players.
+        div
+            span(id="observer-count")=0
+            |  observers.
+        div
+            span(id="average-lag")=0
+            |  ms lag.
+
+  footer
+    | developed during 
+    a(href="http://msopentech.com/nodehackathon2013/") nodehackathon2013
+
+  script(src="/lib/socket.io.js")
+  script(src="/client/render.js")
+  script(src="/common/game.js")
+  script(src="/client/client.js")
