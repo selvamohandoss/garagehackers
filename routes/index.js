@@ -11,12 +11,6 @@ exports.index = function(req, res){
         path: 'fantasy/league/teams?access_token=' + access_token + '&response_format=json'
     };
 
-    cbs_request(options);
-};
-
-
-function cbs_request(options) {
-
     http.get(options, function(res) {
         var data = '';
         
