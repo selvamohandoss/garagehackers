@@ -10,7 +10,7 @@
         this.updateCount = 0;
         // Timer for the update loop.
         this.timer = null;
-    }
+    };
 
     Game.UPDATE_INTERVAL = Math.round(1000 / 30);
     Game.MAX_DELTA = 10000;
@@ -28,8 +28,9 @@
         };
         var newObjects = newState.objects;
         var objects = this.state.objects;
+        var objId;
 
-        for (var objId in objects) {
+        for (objId in objects) {
             var obj = objects[objId];
             if (!obj.dead) {
                 newObjects[obj.id] = obj.computeState(delta);
@@ -37,7 +38,7 @@
         }
 
         return newState;
-    }
+    };
 
     Game.prototype.update = function(timeStamp) {
         var delta = timeStamp - this.state.timeStamp;
@@ -67,23 +68,56 @@
         }, 1);
     };
 
+    Game.prototype.join = function(id) {
+        var x, y, vx, vy;
+        switch (this.getPlayerCount() % 4) {
+            case 0:
+                x = 0; y = 0; vx = 0.1; vy = 0.1;
+                break;
+            case 1:
+                x = 640; y = 0; vx = -0.1; vy = -0.1;
+                break;
+            case 2:
+                x = 0; y = 480; vx = 0.1; vy = 0.1;
+                break;
+            case 3:
+                x = 640; y = 480; vx = -0.1; vy = -0.1;
+                break;
+        }
+
+        var player = new Player({
+            id: id,
+            x: x,
+            y: y,
+            vx: vx,
+            vy: vy,
+            r: 20
+        });
+        this.state.objects[player.id] = player;
+        return player.id;
+    };
+
     Game.prototype.getPlayerCount = function() {
         var count = 0;
         var objects = this.state.objects;
-        for (var id in objects) {
-            if (objects[id].type = 'player') {
+        var id;
+
+        for (id in objects) {
+            if (objects[id].type === 'player') {
                 count++;
             }
         }
         return count;
-    }
+    };
 
     Game.prototype.save = function () {
         var serialized = {
             objects: {},
             timeStamp: this.state.timeStamp
         };
-        for (var id in this.state.objects) {
+        var id;
+
+        for (id in this.state.objects) {
             var obj = this.state.objects[id];
             // Serialize to JSON!
             serialized.objects[id] = obj.toJSON();
@@ -97,18 +131,24 @@
         this.state = {
             objects: {},
             timeStamp: savedState.timeStamp.valueOf()
-        }
-        for (var id in objects) {
+        };
+        var id;
+
+        for (id in objects) {
             var obj = objects[id];
 
-            if (obj.type == 'blob') {
+            if (obj.type === 'blob') {
                 this.state.objects[obj.id] = new Blob(obj);
             }
 
             if (obj.id > this.lastId) {
-                this.lastId = obj.id
+                this.lastId = obj.id;
             }
         }
+    };
+
+    Game.prototype.blobExists = function  (blobId) {
+        return this.state.objects[blobId] !== undefined;
     };
 
     var Blob = function(params) {
@@ -158,7 +198,9 @@
 
     Blob.prototype.toJSON = function  () {
         var obj = {};
-        for (var prop in this) {
+        var prop;
+
+        for (prop in this) {
             if (this.hasOwnProperty(prop)) {
                 obj[prop] = this[prop];
             }
@@ -166,7 +208,18 @@
         return obj;
     };
 
+    var Player = function  (params) {
+        this.name = params.name;
+        this.type = 'player';
+
+        Blob.call(this, params);
+    };
+
+    Player.prototype = new Blob();
+    Player.prototype.constructor = Player;
+
     exports.Game = Game;
+    exports.Player = Player;
     exports.Blob = Blob;
 
-})(typeof global === "undefined" ? window : exports);
+}(typeof global === "undefined" ? window : exports));

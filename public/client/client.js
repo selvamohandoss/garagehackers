@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function  () {
     totalSkew = 0;
 
     var renderer = new Renderer(game);
+    var input = new Input(game);
 
     socket.on('start', function  (data) {
         console.log('recv state', data);
