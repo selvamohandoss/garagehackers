@@ -37,6 +37,32 @@
             }
         }
 
+        var largest = null;
+        var total = 0;
+
+        for (var i in newObjects) {
+            var o = newObjects[i];
+            for (var j in newObjects) {
+                var p = newObjects[j];
+
+                if (o !== p && o.intersects(p)) {
+                    this.transferAreas_(o, p, delta);
+                }
+            }
+
+            if (!this.inBounds_(o)) {
+                this.repositionInBounds_(o);
+            }
+
+            if (!largest) {
+                largest = o;
+            }
+            if (o.r > largest.r) {
+                largest = o;
+            }
+            total += o.r;
+        }
+
         return newState;
     };
 
@@ -97,6 +123,35 @@
         return player.id;
     };
 
+    Game.prototype.shoot = function(id, direction, timeStamp) {
+        console.log('adding shot from', this.state.timeStamp - timeStamp, 'ago');
+        var player = this.state.objects[id];
+
+        // Unit vectors
+        var ex = Math.cos(direction);
+        var ey = Math.sin(direction);
+
+        var diff = player.area() * Game.SHOT_AREA_RATIO;
+
+        // Create the new blob
+        var blob = new Blob({
+            id: this.newId_(),
+            vx: player.vx + ex * Game.SHOT_SPEED_RATIO,
+            vy: player.vy + ey * Game.SHOT_SPEED_RATIO,
+            r: 0
+        });
+        this.state.objects[blob.id] = blob;
+
+        // New blob should be positioned so that it doesn't overlap parent.
+        blob.x = player.x + (player.r + blob.r) * ex;
+        blob.y = player.y + (player.r + blob.r) * ey;
+
+        // Affect blob and player radius.
+        blob.transferArea(diff);
+        player.transferArea(-diff);
+
+    };
+
     Game.prototype.getPlayerCount = function() {
         var count = 0;
         var objects = this.state.objects;
@@ -126,6 +181,44 @@
         return serialized;
     };
 
+    Game.prototype.callback_ = function(event, data) {
+        var callback = this.callbacks[event];
+        if (callback) {
+            callback(data);
+        } else {
+            throw "Warning: No callback defined!";
+        }
+    };
+
+    Game.prototype.newId_ = function() {
+        return ++this.lastId;
+    };
+
+    Game.prototype.inBounds_ = function(o) {
+        return o.r < o.x && o.x < (Game.WIDTH - o.r) &&
+            o.r < o.y && o.y < (Game.HEIGHT - o.r);
+    };
+
+    Game.prototype.repositionInBounds_ = function(o) {
+        var maxWidth = Game.WIDTH - o.r;
+        var maxHeight = Game.HEIGHT - o.r;
+
+        if (o.x < o.r) {
+            o.x = o.r;
+            o.vx = -o.vx;
+        } else if (o.y < o.r) {
+            o.y = o.r;
+            o.vy = -o.vy;
+        } else if (o.x > maxWidth) {
+            o.x = maxWidth;
+            o.vx = -o.vx;
+        } else if (o.y > maxHeight) {
+            o.y = maxHeight;
+            o.vy = -o.vy;
+        }
+    };
+        
+
     Game.prototype.load = function (savedState) {
         var objects = savedState.objects;
         this.state = {
@@ -149,6 +242,34 @@
 
     Game.prototype.blobExists = function  (blobId) {
         return this.state.objects[blobId] !== undefined;
+    };
+
+    Game.prototype.transferAreas_ = function(o, p, delta) {
+        if(o.dead || p.dead) {
+            return;
+        }
+
+        var big = o;
+        var small = p;
+
+        if (big.r < small.r) {
+            big = p;
+            small = o;
+        }
+        var overlap = big.overlap(small);
+
+        var diff = overlap * Game.TRANSFER_RATE;
+        small.transferArea(-diff);
+        big.transferArea(diff);
+
+        if (small.r <= 1) {
+            small.dead = true;
+            this.callback_('dead', {id: small.id, type: small.type});
+        }
+    };
+
+    Game.prototype.on = function(event, callback) {
+        this.callbacks[event] = callback;
     };
 
     var Blob = function(params) {
