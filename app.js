@@ -37,6 +37,20 @@ io.sockets.on('connection', function(socket) {
         state: game.save()
     });
 
+    socket.on('shoot', function  (data) {
+        console.log('recv shoot', data);
+
+        if (!game.blobExists(playerId)) {
+            return;
+        }
+
+        game.shoot(playerId, data.direction);
+        data.playerId = playerId;
+        data.timeStamp = (new Date()).valueOf();
+
+        io.sockets.emit('shoot', data);
+    });
+
     socket.on('disconnect', function(data) {
         console.log('recv disconnect', data);
         observerCount--;
@@ -74,6 +88,10 @@ io.sockets.on('connection', function(socket) {
             observerCount: observerCount
         });
     }, 2000);
+
+    game.on('dead', function(data) {
+        io.sockets.emit('leave', {name: data.id, type: data.type, timestamp: new Date()});
+    });
 });
 
 
@@ -94,7 +112,7 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
