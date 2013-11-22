@@ -6,11 +6,28 @@
 function DesktopInput(game) {
   this.game = game;
   var ctx = this;
+  var preventPropogationKeys = [left, right];
+
+  var heldDownKeys = {};
 
   // Listen for mouse events on the canvas element
   var canvas = document.getElementById('canvas');
   canvas.addEventListener('click', function(e) {
     ctx.onclick.call(ctx, e);
+  });
+
+  canvas.addEventListener('keyup', function  (e) {
+      heldDownKeys[e.keyCode] = false;
+      if (preventPropogationKeys.contains(e.keyCode)) {
+          e.preventDefault();
+      }
+  });
+
+  canvas.addEventListener('keydown', function  (e) {
+      heldDownKeys[e.keyCode] = true;
+      if (preventPropogationKeys.contains(e.keyCode)) {
+          e.preventDefault();
+      }
   });
 
   // Bind to the join button
