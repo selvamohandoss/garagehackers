@@ -22,6 +22,20 @@ document.addEventListener('DOMContentLoaded', function  () {
         renderer.render();
     });
 
+    socket.on('state', function(data) {
+        game.load(data.state);
+    });
+
+    socket.on('join', function(data) {
+        console.log('recv join', data);
+        game.join(data.name);
+        if (data.isme) {
+            playerId = data.name;
+
+            window.location.hash = '#' + data.name;
+        }
+    });
+
     socket.on('time', function(data) {
         // compute how much we've skewed from server since last tick
         var updateDelta = data.lastUpdate - game.state.timeStamp;
