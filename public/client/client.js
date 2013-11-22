@@ -37,6 +37,16 @@ document.addEventListener('DOMContentLoaded', function  () {
         }
     });
 
+    socket.on('shoot', function(data) {
+        console.log('recv shoot', data.timeStamp, (new Date()).valueOf());
+
+        if( !game.blobExists(data.playerId)) {
+            return;
+        }
+
+        game.shoot(data.playerId, data.direction, data.timeStamp);
+    });
+
     socket.on('time', function(data) {
         // compute how much we've skewed from server since last tick
         var updateDelta = data.lastUpdate - game.state.timeStamp;
@@ -56,4 +66,8 @@ document.addEventListener('DOMContentLoaded', function  () {
         document.getElementById('player-count').innerText = game.getPlayerCount();
         document.getElementById('average-lag').innerText = Math.abs(updateDelta);
     });
+
+    game.on('dead', function(data) {
+    });
+
 });
