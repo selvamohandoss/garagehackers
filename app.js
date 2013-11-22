@@ -48,6 +48,24 @@ io.sockets.on('connection', function(socket) {
         });
     });
 
+    socket.on('join', function (data) {
+        console.log('recv join', data);
+        if (game.blobExists(data.name)) {
+            return;
+        }
+
+        if (game.getPlayerCount() >= 4) {
+            return;
+        }
+
+        playerId = game.join(data.name);
+        data.timeStamp = new Date();
+
+        socket.broadcast.emit('join', data);
+        data.isme = true;
+        socket.emit('join', data);
+    });
+
     var timeSyncTimer = setInterval(function  () {
         socket.emit('time', {
             timeStamp: (new Date()).valueOf(),
