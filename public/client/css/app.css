@@ -116,6 +116,13 @@ footer, header, .content {
   opacity: 0.7;
 }
 
+header a {
+    color: yellow;
+    font-size: small;
+    text-align: right;
+    opacity: 0.7
+}
+
 footer a {
   color: yellow;
 }

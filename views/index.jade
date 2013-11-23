@@ -1,7 +1,8 @@
 extends layout
 
 block content
-  header #{title}
+  header #{title} 
+    a(href="http://github.org/sjbenner/garagehackers") {source on github}
   .content
     .gameboard
         canvas#game-view(height=240, width=640)

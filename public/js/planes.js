@@ -34,7 +34,7 @@ function() {
 Plane.prototype.DrawBody =
 function() {
     
-    this.ctx.fillStyle = '#449944';
+    this.ctx.fillStyle = 'red';
     this.ctx.beginPath();
     this.ctx.moveTo(this.pathArray[0], this.pathArray[1]);
     for(var i=2;i < this.pathArray.length; i+=2) {
