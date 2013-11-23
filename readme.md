@@ -8,10 +8,7 @@ A node.js implementation of the Intellivision biplanes game. A live demo of the 
 
 Current functionality includes:
 
-pitch manipulation
-==
-
-Use the left and right arrow keys to change the airplanes pitch.
+- pitch manipulation - use the left and right arrow keys to change the airplanes pitch.
 
 todo
 ==
