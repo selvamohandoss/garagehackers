@@ -106,7 +106,7 @@ button:focus {
   color: white;
 }
 
-footer {
+footer, header, .content {
   padding-top: 40px;
   font-size: 22px;
   clear: both;
