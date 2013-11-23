@@ -40,9 +40,6 @@ document.addEventListener('DOMContentLoaded', function  () {
     socket.on('shoot', function(data) {
         console.log('recv shoot', data.timeStamp, (new Date()).valueOf());
 
-        if( !game.blobExists(data.playerId)) {
-            return;
-        }
 
         game.shoot(data.playerId, data.direction, data.timeStamp);
     });

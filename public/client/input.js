@@ -6,6 +6,8 @@
 function DesktopInput(game) {
   this.game = game;
   var ctx = this;
+  var left = 37;
+  var right = 39;
   var preventPropogationKeys = [left, right];
 
   var heldDownKeys = {};
@@ -16,16 +18,16 @@ function DesktopInput(game) {
     ctx.onclick.call(ctx, e);
   });
 
-  canvas.addEventListener('keyup', function  (e) {
+  addEventListener('keyup', function  (e) {
       heldDownKeys[e.keyCode] = false;
-      if (preventPropogationKeys.contains(e.keyCode)) {
+      if (preventPropogationKeys.indexOf(e.keyCode) > -1) {
           e.preventDefault();
       }
   });
 
-  canvas.addEventListener('keydown', function  (e) {
+  addEventListener('keydown', function  (e) {
       heldDownKeys[e.keyCode] = true;
-      if (preventPropogationKeys.contains(e.keyCode)) {
+      if (preventPropogationKeys.indexOf(e.keyCode) > -1) {
           e.preventDefault();
       }
   });

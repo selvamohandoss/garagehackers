@@ -40,10 +40,6 @@ io.sockets.on('connection', function(socket) {
     socket.on('shoot', function  (data) {
         console.log('recv shoot', data);
 
-        if (!game.blobExists(playerId)) {
-            return;
-        }
-
         game.shoot(playerId, data.direction);
         data.playerId = playerId;
         data.timeStamp = (new Date()).valueOf();
@@ -64,9 +60,6 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('join', function (data) {
         console.log('recv join', data);
-        if (game.blobExists(data.name)) {
-            return;
-        }
 
         if (game.getPlayerCount() >= 4) {
             return;
