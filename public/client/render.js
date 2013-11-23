@@ -9,7 +9,7 @@ window.requestAnimFrame = (function(){
           function(/* function */ callback, /* DOMElement */ element){
             window.setTimeout(callback, 1000 / 60);
           };
-})();
+}());
 
 /**
  * Canvas-based renderer
@@ -23,12 +23,13 @@ var CanvasRenderer = function(game) {
 CanvasRenderer.prototype.render = function() {
   this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   var objects = this.game.state.objects;
+  var i;
   // Render the game state
-  for (var i in objects) {
+  for (i in objects) {
     var o = objects[i];
     if (o.dead) {
       // TODO: render animation.
-      if (o.type == 'player') {
+      if (o.type === 'player') {
         console.log('player', o.id, 'died');
       }
     }
@@ -45,20 +46,30 @@ CanvasRenderer.prototype.render = function() {
 
 CanvasRenderer.prototype.renderObject_ = function(obj) {
   var ctx = this.context;
-  ctx.fillStyle = (obj.type == "player" ? 'green' : 'red');
-  ctx.beginPath();
-  ctx.arc(obj.x, obj.y, obj.r, 0, 2 * Math.PI, true);
-  ctx.closePath();
-  ctx.fill();
-  if (obj.type == 'player') {
-    ctx.font = "8pt monospace";
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.fillText(obj.id, obj.x, obj.y);
+  ctx.fillStyle = (obj.type === "player" ? 'green' : 'red');
+  // bottom wing
+  ctx.fillRect(obj.x+20, obj.y+3, 10, 3);
+
+  // tail
+  ctx.fillRect(obj.x, obj.y-10, 6, 4);
+  ctx.fillRect(obj.x, obj.y-7, 8, 4);
+
+  // fuselage
+  ctx.fillRect(obj.x+8, obj.y-1, 27, 3);
+  ctx.fillRect(obj.x, obj.y-4, 35, 3);
+
+  // top wing
+  ctx.fillRect(obj.x+20, obj.y-8, 10, 3);
+
+  if (obj.type === 'player') {
+      ctx.font = "8pt monospace";
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      //ctx.fillText(obj.id, obj.x, obj.y);
   }
 
 };
 
 exports.Renderer = CanvasRenderer;
 
-})(window);
+}(window));

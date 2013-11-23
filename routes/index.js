@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Node Planes' });
+  res.render('index', { title: 'Planes' });
 };

@@ -1,32 +1,6 @@
 extends layout
 
 block content
-  h1 Welcome to #{title}
-  .outer
-    canvas(id="canvas" width="640" height="480")
-    .hud
-        .buttons
-            button(id="join") Join
-            button(id="music") Music
-
-    .info
-        div
-            span(id="player-count")=0
-            |  players.
-        div
-            span(id="observer-count")=0
-            |  observers.
-        div
-            span(id="average-lag")=0
-            |  ms lag.
-
-  footer
-    | developed during 
-    a(href="http://msopentech.com/nodehackathon2013/") nodehackathon2013
-
-  script(src="/lib/socket.io.js")
-  script(src="/lib/smoke.min.js")
-  script(src="/common/game.js")
-  script(src="/client/render.js")
-  script(src="/client/client.js")
-  script(src="/client/input.js")
+  h1= title
+  .content
+    canvas#game-view(height=240, width=640)
