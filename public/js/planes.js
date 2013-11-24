@@ -59,7 +59,7 @@ function() {
 Airplane.prototype.DrawBody =
 function() {
     
-    this.ctx.fillStyle = '#449944';
+    this.ctx.fillStyle = 'red';
     this.ctx.beginPath();
     this.ctx.moveTo(this.x, this.y);
     for(var i=0;i < this.pathArray.length; i+=2) {

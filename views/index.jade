@@ -1,6 +1,15 @@
 extends layout
 
 block content
-  h1= title
+  header #{title} 
+    a(href="http://github.org/sjbenner/garagehackers") {source on github}
   .content
-    canvas#game-view(height=240, width=640)
+    .gameboard
+        canvas#game-view(height=240, width=640)
+
+    .article
+    | Use the arrow keys to change the aircraft's pitch.
+
+  footer
+    p developed with support from 
+      a(href="http://msopentech.com") Microsoft Open Technologies
