@@ -106,7 +106,7 @@ button:focus {
   color: white;
 }
 
-footer {
+footer, header, .content {
   padding-top: 40px;
   font-size: 22px;
   clear: both;
@@ -114,6 +114,13 @@ footer {
   width: 640px;
   text-align: center;
   opacity: 0.7;
+}
+
+header a {
+    color: yellow;
+    font-size: small;
+    text-align: right;
+    opacity: 0.7
 }
 
 footer a {
