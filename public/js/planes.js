@@ -6,6 +6,8 @@
 var Airplane = function (params) {
     this.x = params.x;
     this.y = params.y;
+    this.vx = 0.01;
+    this.vy = 0.01;
     this.dr = 0;
     this.speed = 0.1;
     this.rotation = params.rotationAngle;
@@ -41,16 +43,18 @@ function fireWeapon (state) {
 
 ;
 
-Airplane.prototype.update = function() {
-    this.rotation += this.dr * this.rotationSpeed;
-    this.x = (this.x + this.speed) % 640;
+Airplane.prototype.update = function(dt) {
+    // calculate new position
+    this.rotation += this.dr * this.speed * dt * Math.PI/180;
+    this.x += this.speed * dt * Math.cos(this.rotation)
+    this.y += this.speed * dt * Math.sin(this.rotation)
 };
 
 Airplane.prototype.Draw =
 function() {
     this.ctx.save();
     this.ctx.translate(this.x-25, this.y-6);
-    this.ctx.rotate((Math.PI/180)*this.rotation);
+    this.ctx.rotate(this.rotation);
     this.ctx.translate(-this.x+25, -this.y+6);
     this.DrawBody();
     this.ctx.restore();

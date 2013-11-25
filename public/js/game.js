@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function  () {
 function InitializeCanvas() {
     var ctx = document.getElementById('game-view').getContext('2d');
     var p = new window.BIPLANES.Airplane({ x: 50, y: 50, rotationAngle: 0, ctx: ctx});
+    var lastTimeStamp = (new Date()).valueOf();
     function render(){
         ctx.clearRect(0,0,640,240);
         ctx.rect(0,0, 640, 240);
@@ -15,7 +16,9 @@ function InitializeCanvas() {
         gradient.addColorStop(1, '#007700');
         ctx.fillStyle = gradient;
         ctx.fill();
-        p.update();
+        p.update( (new Date()).valueOf() - lastTimeStamp );
+        lastTimeStamp = (new Date()).valueOf();
+
         p.Draw();
     }
     setInterval(render, 5);
