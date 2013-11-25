@@ -67,8 +67,9 @@ function() {
     
     this.ctx.fillStyle = '#B20000';
     this.ctx.beginPath();
-    this.ctx.moveTo(this.x-13, this.y+4);
-    this.ctx.bezierCurveTo(this.x-10, this.y-2, this.x-20, this.y-2, this.x-42, this.y+5);
+    this.ctx.moveTo(this.x-15, this.y+6);
+    this.ctx.bezierCurveTo(this.x-5, this.y-2, this.x-20, this.y-2, this.x-38, this.y+3);
+    this.ctx.lineTo(this.x-15, this.y+4);
     this.ctx.lineWidth = 3;
 
     this.ctx.strokeStyle = '#990000';
