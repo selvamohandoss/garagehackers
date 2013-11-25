@@ -40,14 +40,15 @@ function fireWeapon (state) {
 };
 };
 
-
-;
-
 Airplane.prototype.update = function(dt) {
     // calculate new position
     this.rotation += this.dr * this.speed * dt * Math.PI/180;
-    this.x += this.speed * dt * Math.cos(this.rotation)
-    this.y += this.speed * dt * Math.sin(this.rotation)
+    var dx = (this.speed * dt * Math.cos(this.rotation));
+    var dy = (this.speed * dt * Math.sin(this.rotation));
+    this.x = (this.x + dx) % 740;
+    if (this.x < -75) { this.x = 740; }
+    this.y = (this.y + dy) % 540;
+    if (this.y < -60) { this.y = 540; }
 };
 
 Airplane.prototype.Draw =

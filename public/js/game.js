@@ -7,9 +7,9 @@ function InitializeCanvas() {
     var p = new window.BIPLANES.Airplane({ x: 50, y: 50, rotationAngle: 0, ctx: ctx});
     var lastTimeStamp = (new Date()).valueOf();
     function render(){
-        ctx.clearRect(0,0,640,240);
-        ctx.rect(0,0, 640, 240);
-        var gradient = ctx.createLinearGradient(0,0,0, 240);
+        ctx.clearRect(0,0,640,480);
+        ctx.rect(0,0, 640, 480);
+        var gradient = ctx.createLinearGradient(0,0,0,480);
         gradient.addColorStop(0, '#8ED6FF');
         gradient.addColorStop(0.95, '#004CB3');
         gradient.addColorStop(0.95, '#00AA00');
