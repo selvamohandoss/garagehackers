@@ -9,9 +9,10 @@ A node.js implementation of the Intellivision biplanes game. A live demo of the 
 Current functionality includes:
 
 - pitch manipulation - use the left and right arrow keys to change the airplanes pitch.
+- position changes based on time and pitch.
 
 todo
 ==
 
-- implement physics model (gravity, lift, drag, thrust ...)
+- improve physics model (gravity, lift, drag, thrust ...)
 - implement weapons systems :)
