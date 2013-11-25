@@ -57,23 +57,38 @@ function() {
     this.ctx.translate(this.x-25, this.y-6);
     this.ctx.rotate(this.rotation);
     this.ctx.translate(-this.x+25, -this.y+6);
-    this.DrawBody();
+    this.DrawFuselage();
+    this.DrawWing();
     this.ctx.restore();
 };
 
-Airplane.prototype.DrawBody =
+Airplane.prototype.DrawWing =
 function() {
     
-    this.ctx.fillStyle = 'red';
+    this.ctx.fillStyle = '#B20000';
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.x-13, this.y+4);
+    this.ctx.bezierCurveTo(this.x-10, this.y-2, this.x-20, this.y-2, this.x-42, this.y+5);
+    this.ctx.lineWidth = 3;
+
+    this.ctx.strokeStyle = '#990000';
+    this.ctx.stroke();
+    this.ctx.fill();
+    
+};
+
+Airplane.prototype.DrawFuselage =
+function() {
+    
+    this.ctx.fillStyle = '#BA1919';
     this.ctx.beginPath();
     this.ctx.moveTo(this.x, this.y);
     for(var i=0;i < this.pathArray.length; i+=2) {
         this.ctx.lineTo(this.x + this.pathArray[i], this.y + this.pathArray[i+1]);
     }
-    this.ctx.fill();
     
+    this.ctx.fill();
 };
-
 App.Airplane = Airplane;
 
 }(window.BIPLANES));
