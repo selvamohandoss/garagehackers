@@ -15,4 +15,6 @@ todo
 ==
 
 - improve physics model (gravity, lift, drag, thrust ...)
+- add collision detection
 - implement weapons systems :)
+- add multiple players (computer opponent AI?)
