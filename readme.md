@@ -8,10 +8,11 @@ A multi player combat airplane game implemented in node.js. A live demo of the c
 
 This project was developed during the windows/node [hackathon](https://msopentech.com/nodehackathon2013).
 
-Current functionality includes:
+Current functionality:
 
-- pitch manipulation - use the left and right arrow keys to change the airplanes pitch.
+- pitch manipulation - left and right arrow keys change the airplanes pitch.
 - position changes based on time and pitch.
+- the flight path wraps around if the plane goes outside of the canvas area.
 
 todo
 ----------------
