@@ -1,4 +1,5 @@
 (function(App) {
+    var gravity = 4;
     var events = App.eventDispatcher;
 /**
  * Airplane object
@@ -23,28 +24,28 @@ var Airplane = function (params) {
         that.controls[keyCode]("on");
     };
 
-function controlOff( keyCode ) {
-    that.controls[keyCode]("off");
-}
+    function controlOff( keyCode ) {
+        that.controls[keyCode]("off");
+    };
 
-function elevatorUp (state) {
-    that.dr = state === "on" ? -1 : 0;
-};
+    function elevatorUp (state) {
+        that.dr = state === "on" ? -1 : 0;
+    };
 
-function elevatorDown (state) {
-    that.dr = state === "on" ? 1 : 0;
-};
+    function elevatorDown (state) {
+        that.dr = state === "on" ? 1 : 0;
+    };
 
-function fireWeapon (state) {
-    // body...
-};
+    function fireWeapon (state) {
+        // body...
+    };
 };
 
 Airplane.prototype.update = function(dt) {
     // calculate new position
     this.rotation += this.dr * this.speed * dt * Math.PI/180;
     var dx = (this.speed * dt * Math.cos(this.rotation));
-    var dy = (this.speed * dt * Math.sin(this.rotation));
+    var dy = (this.speed * dt * Math.sin(this.rotation)) + gravity/dt;
     this.x = (this.x + dx) % 740;
     if (this.x < -75) { this.x = 740; }
     this.y = (this.y + dy) % 540;
