@@ -1,3 +1,4 @@
+var gameObjects = {};
 document.addEventListener('DOMContentLoaded', function  () {
     InitializeCanvas();
 });
@@ -5,13 +6,18 @@ document.addEventListener('DOMContentLoaded', function  () {
 function InitializeCanvas() {
     var ctx = document.getElementById('game-view').getContext('2d');
     var p = new window.BIPLANES.Airplane({ x: 50, y: 50, rotationAngle: 0, ctx: ctx});
+    gameObjects[p] = p;
     var lastTimeStamp = (new Date()).valueOf();
     function gameLoop(){
-        p.update( (new Date()).valueOf() - lastTimeStamp );
-        lastTimeStamp = (new Date()).valueOf();
+        var now = (new Date()).valueOf();
+        for(var o in gameObjects) {
+            gameObjects[o].update( now - lastTimeStamp );
+        }
+        lastTimeStamp = now;
     }
 
     function renderLoop() {
+        var now = (new Date()).valueOf();
         ctx.clearRect(0,0,640,480);
         ctx.rect(0,0, 640, 480);
         var gradient = ctx.createLinearGradient(0,0,0,480);
@@ -21,7 +27,9 @@ function InitializeCanvas() {
         gradient.addColorStop(1, '#007700');
         ctx.fillStyle = gradient;
         ctx.fill();
-        p.Draw();
+        for(var o in gameObjects) {
+            gameObjects[o].draw( now - lastTimeStamp );
+        }
         requestAnimationFrame( renderLoop );
     }
     setInterval(gameLoop, 5);

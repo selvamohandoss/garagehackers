@@ -1,5 +1,5 @@
 (function(App) {
-    var gravity = 4;
+    var gravity = 2;
     var events = App.eventDispatcher;
 /**
  * Airplane object
@@ -37,7 +37,7 @@ var Airplane = function (params) {
     };
 
     function fireWeapon (state) {
-        // body...
+        console.log("firing weapon state: " + state);
     };
 };
 
@@ -52,18 +52,18 @@ Airplane.prototype.update = function(dt) {
     if (this.y < -60) { this.y = 540; }
 };
 
-Airplane.prototype.Draw =
+Airplane.prototype.draw =
 function() {
     this.ctx.save();
     this.ctx.translate(this.x-25, this.y-6);
     this.ctx.rotate(this.rotation);
     this.ctx.translate(-this.x+25, -this.y+6);
-    this.DrawFuselage();
-    this.DrawWing();
+    this.drawFuselage();
+    this.drawWing();
     this.ctx.restore();
 };
 
-Airplane.prototype.DrawWing =
+Airplane.prototype.drawWing =
 function() {
     
     this.ctx.fillStyle = '#B20000';
@@ -79,7 +79,7 @@ function() {
     
 };
 
-Airplane.prototype.DrawFuselage =
+Airplane.prototype.drawFuselage =
 function() {
     
     this.ctx.fillStyle = '#BA1919';
